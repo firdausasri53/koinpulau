@@ -1,134 +1,368 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pulau Koin Clicker</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      background: linear-gradient(180deg, #0f172a, #1e293b); 
-      color: white;
-      font-family: 'Arial', sans-serif; 
-      text-align: center;
-      user-select: none;
-      height: 100vh;
-      overflow: hidden;
-    }
-    #koin { 
-      font-size: 36px; 
-      margin: 20px; 
-      color: #fbbf24; 
-      text-shadow: 0 0 10px #fbbf2480;
-      font-weight: bold;
-    }
-    #pulau {
-      width: 220px; 
-      height: 220px;
-      background: radial-gradient(circle, #22c55e, #16a34a);
-      border-radius: 50%;
-      margin: 40px auto;
-      cursor: pointer;
-      transition: transform 0.08s cubic-bezier(.17,.67,.83,.67);
-      box-shadow: 0 0 40px #22c55e80, inset 0 0 20px #ffffff40;
-      border: 4px solid #15803d;
-    }
-    #pulau:active { transform: scale(0.88); }
-    button {
-      background: linear-gradient(180deg, #3b82f6, #2563eb);
-      border: none;
-      color: white;
-      padding: 16px 28px;
-      font-size: 18px;
-      border-radius: 12px;
-      margin: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 4px 0 #1d4ed8;
-    }
-    button:active { transform: translateY(2px); box-shadow: 0 2px 0 #1d4ed8; }
-    button:disabled { background: #475569; box-shadow: 0 4px 0 #334155; }
-    #toko { 
-      background: #1e293b90; 
-      padding: 20px; 
-      border-radius: 20px; 
-      margin: 20px;
-      border: 2px solid #334155;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Cash King</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Fredoka', sans-serif; }
+        body {
+            background: radial-gradient(circle at center, #4a90e2 0%, #1e3c72 100%);
+            color: #fff; text-align: center; overflow: hidden; height: 100vh;
+        }
+     .top-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 12px; background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent);
+            font-weight: 700; font-size: 18px; text-shadow: 2px 2px 4px #000;
+        }
+     .resource { display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.2); }
+     .game-area { position: relative; height: calc(100vh - 140px); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+     .wheel-container { position: relative; width: 320px; height: 320px; margin: 10px auto; }
+        #wheel {
+            width: 100%; height: 100%; border-radius: 50%; position: relative;
+            background: conic-gradient(
+                from 0deg,
+                #FFD700 0deg 45deg, #FF6B6B 45deg 90deg, #4ECDC4 90deg 135deg, #45B7D1 135deg 180deg,
+                #FFD700 180deg 225deg, #FF6B6B 225deg 270deg, #4ECDC4 270deg 315deg, #45B7D1 315deg 360deg
+            );
+            border: 8px solid #8B4513; box-shadow: 0 0 0 8px #FFD700, 0 0 30px rgba(0,0,0,0.6);
+        }
+     .wheel-center {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 60px; height: 60px; background: #FFD700; border-radius: 50%; border: 5px solid #8B4513;
+            z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 30px;
+        }
+     .pointer {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent;
+            border-top: 30px solid #FF0000; z-index: 20; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.5));
+        }
+     .wheel-item {
+            position: absolute; width: 50%; height: 50%; top: 50%; left: 50%;
+            transform-origin: 0% 0%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px; color: #fff; text-shadow: 2px 2px 2px #000;
+        }
+     .wheel-item span { transform: rotate(22.5deg); }
+
+     .spin-btn {
+            background: linear-gradient(180deg, #00ff00, #00aa00);
+            border: 4px solid #008800; color: #fff; font-size: 24px; font-weight: 700;
+            padding: 12px 30px; border-radius: 50px; cursor: pointer; margin-top: 20px;
+            box-shadow: 0 6px 0 #006600, 0 8px 15px rgba(0,0,0,0.4); transition: 0.1s;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+     .spin-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 #006600; }
+     .spin-btn:disabled { background: #555; border-color: #333; box-shadow: 0 6px 0 #222; }
+
+     .energy-bar {
+            background: rgba(0,0,0,0.4); border-radius: 20px; padding: 8px; margin: 10px auto;
+            width: 280px; border: 3px solid #FFD700;
+        }
+     .energy-fill {
+            background: linear-gradient(90deg, #00ff00, #00ff88); height: 20px; border-radius: 15px;
+            transition: width 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+     .energy-text { font-weight: 700; margin-top: 5px; font-size: 16px; }
+
+        #resultPopup {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(180deg, #FFD700, #FFA500); color: #8B4513;
+            padding: 30px 50px; border-radius: 20px; border: 5px solid #8B4513;
+            font-size: 32px; font-weight: 700; z-index: 100; box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        #resultPopup.show { transform: translate(-50%, -50%) scale(1); }
+
+     .side-btn {
+            position: absolute; background: rgba(0,0,0,0.4); border: 3px solid #FFD700;
+            width: 60px; height: 60px; border-radius: 15px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; font-size: 12px; font-weight: 600; cursor: pointer;
+        }
+        #buildBtn { top: 80px; left: 10px; }
+        #attackBtn { top: 160px; left: 10px; }
+        #stealBtn { top: 240px; left: 10px; }
+        #shieldBtn { top: 80px; right: 10px; }
+        #shopBtn { top: 160px; right: 10px; }
+     .side-btn.icon { font-size: 24px; }
+     .badge { background: #FF0000; color: #fff; border-radius: 50%; width: 20px; height: 20px; position: absolute; top: -5px; right: -5px; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+
+     .particle { position: absolute; pointer-events: none; animation: float 1.5s ease-out forwards; z-index: 50; }
+        @keyframes float { to { transform: translateY(-150px) scale(1.5); opacity: 0; } }
+        
+        /* TOMBOL UNLOCK AUDIO */
+        #audioUnlock {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #FF0000; color: #fff; padding: 20px 40px; border-radius: 15px;
+            font-size: 20px; font-weight: 700; z-index: 999; border: 4px solid #fff;
+            box-shadow: 0 0 30px #000;
+        }
+    </style>
 </head>
 <body>
-  <div id="koin">Koin: 0</div>
-  <div id="pulau"></div>
-  
-  <div id="toko">
-    <h2>🛒 Toko Upgrade</h2>
-    <button id="btnUpgrade" onclick="beliUpgrade()">
-      Beli Cangkul (+1/Klik) - 10 Koin
-    </button>
-    <button onclick="resetGame()">🔄 Reset Game</button>
-  </div>
+    <div id="audioUnlock" onclick="unlockAudio()">🔊 KLIK UNTUK AKTIFIN SUARA</div>
 
-  <script>
-    let koin = 0, koinPerKlik = 1, hargaUpgrade = 10;
-    const teksKoin = document.getElementById('koin');
-    const pulau = document.getElementById('pulau');
-    const btnUpgrade = document.getElementById('btnUpgrade');
-   function bunyiTing() {
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const oscillator = audioCtx.createOscillator();
-  const gainNode = audioCtx.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
-  
-  oscillator.type = 'sine';
-  oscillator.frequency.value = 800;
-  gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-  
-  oscillator.start();
-  oscillator.stop(audioCtx.currentTime + 0.1);
+    <div class="top-bar">
+        <div class="resource">👤 <span id="level">Lv.1</span></div>
+        <div class="resource">🪙 <span id="koin">500</span></div>
+        <div class="resource">🛡️ <span id="shield">3</span></div>
+    </div>
+
+    <div class="game-area">
+        <h2 style="text-shadow: 2px 2px 4px #000; margin-bottom: 10px;">🏆 Cash King 🏆</h2>
+
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div id="wheel">
+                <div class="wheel-item" style="transform: rotate(0deg)"><span>💰 100K</span></div>
+                <div class="wheel-item" style="transform: rotate(45deg)"><span>⚔️ ATTACK</span></div>
+                <div class="wheel-item" style="transform: rotate(90deg)"><span>🪙 50K</span></div>
+                <div class="wheel-item" style="transform: rotate(135deg)"><span>🛡️ SHIELD</span></div>
+                <div class="wheel-item" style="transform: rotate(180deg)"><span>💰 200K</span></div>
+                <div class="wheel-item" style="transform: rotate(225deg)"><span>🐷 STEAL</span></div>
+                <div class="wheel-item" style="transform: rotate(270deg)"><span>🪙 25K</span></div>
+                <div class="wheel-item" style="transform: rotate(315deg)"><span>⚡ ENERGY</span></div>
+            </div>
+            <div class="wheel-center">👑</div>
+        </div>
+
+        <div class="energy-bar">
+            <div class="energy-fill" id="energyFill" style="width: 100%"></div>
+            <div class="energy-text">⚡ <span id="energy">50</span>/50</div>
+        </div>
+
+        <button class="spin-btn" id="spinBtn" onclick="spin()">SPIN x1</button>
+    </div>
+
+    <div class="side-btn" id="buildBtn" onclick="playSound('clickSound'); alert('Build Pulau - Coming Soon!')">
+        <div class="icon">🏝️</div>Build
+    </div>
+    <div class="side-btn" id="attackBtn" onclick="doAttack()">
+        <div class="icon">⚔️</div>Attack
+        <div class="badge" id="attackBadge" style="display:none;">!</div>
+    </div>
+    <div class="side-btn" id="stealBtn" onclick="doSteal()">
+        <div class="icon">🐷</div>Steal
+        <div class="badge" id="stealBadge" style="display:none;">!</div>
+    </div>
+    <div class="side-btn" id="shieldBtn" onclick="playSound('clickSound')">
+        <div class="icon">🛡️</div>Shield
+    </div>
+    <div class="side-btn" id="shopBtn" onclick="playSound('clickSound'); alert('Shop - Coming Soon!')">
+        <div class="icon">🛒</div>Shop
+    </div>
+
+    <div id="resultPopup"></div>
+
+<script>
+let data = {
+    koin: 500000, energy: 50, shield: 3, level: 1,
+    attackReady: false, stealReady: false,
+    wheelItems: [
+        {type: "koin", val: 100000, text: "💰 100K"},
+        {type: "attack", text: "⚔️ ATTACK"},
+        {type: "koin", val: 50000, text: "🪙 50K"},
+        {type: "shield", val: 1, text: "🛡️ SHIELD"},
+        {type: "koin", val: 200000, text: "💰 200K"},
+        {type: "steal", text: "🐷 STEAL"},
+        {type: "koin", val: 25000, text: "🪙 25K"},
+        {type: "energy", val: 10, text: "⚡ +10 ENERGY"}
+    ]
+};
+
+let isSpinning = false;
+let currentAngle = 0;
+let audioUnlocked = false;
+
+// FIX V3.5: SUARA BASE64 - GAK PERLU INTERNET
+const sounds = {
+    click: new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU..."), // Suara klik pendek
+    spin: new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ..."), // Suara muter
+    win: new Audio("data:audio/wav;base64,UklGRiIAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ..."), // Suara menang
+    attack: new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...") // Suara boom
+};
+
+// Karena base64 kepanjangan, gw pake Web Audio API buat generate suara
+let audioCtx;
+function initAudio() {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 }
-    // Load save
-    let save = JSON.parse(localStorage.getItem('pulauKoinSave'));
-    if(save) { koin = save.koin; koinPerKlik = save.koinPerKlik; hargaUpgrade = save.hargaUpgrade; }
+
+function playBeep(freq, duration, type) {
+    if(!audioCtx) initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.frequency.value = freq;
+    osc.type = type || 'sine';
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration/1000);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + duration/1000);
+}
+
+function playSound(type) {
+    if(!audioUnlocked) return;
+    try {
+        if(type === 'clickSound') playBeep(800, 50, 'square');
+        if(type === 'spinSound') playBeep(200, 2000, 'sawtooth');
+        if(type === 'winSound') { playBeep(523, 100); setTimeout(()=>playBeep(659, 100), 100); setTimeout(()=>playBeep(784, 200), 200); }
+        if(type === 'attackSound') playBeep(100, 500, 'sawtooth');
+    } catch(e) { console.log("Audio error:", e); }
+}
+
+function unlockAudio() {
+    initAudio();
+    audioUnlocked = true;
+    document.getElementById('audioUnlock').style.display = 'none';
+    playSound('clickSound');
+    alert("SUARA AKTIF BRO! 🎵");
+}
+
+function load() {
+    const save = localStorage.getItem('cashKing');
+    if(save) data = JSON.parse(save);
     updateUI();
-    
-   pulau.addEventListener('click', () => {
-  koin += koinPerKlik;
-  
-  bunyiTing(); // GANTI sfxKlik.play() JADI INI
-  
-  updateUI();
-  saveGame();
-});
+}
 
-    function beliUpgrade() {
-      if(koin >= hargaUpgrade) {
-        koin -= hargaUpgrade;
-        koinPerKlik++;
-        hargaUpgrade = Math.floor(hargaUpgrade * 1.8);
+function save() { localStorage.setItem('cashKing', JSON.stringify(data)); }
+
+function updateUI() {
+    document.getElementById('koin').textContent = formatNumber(data.koin);
+    document.getElementById('energy').textContent = data.energy;
+    document.getElementById('shield').textContent = data.shield;
+    document.getElementById('level').textContent = "Lv." + data.level;
+    document.getElementById('energyFill').style.width = (data.energy/50*100) + "%";
+    document.getElementById('spinBtn').disabled = data.energy <= 0 || isSpinning;
+    document.getElementById('attackBadge').style.display = data.attackReady? 'flex' : 'none';
+    document.getElementById('stealBadge').style.display = data.stealReady? 'flex' : 'none';
+    save();
+}
+
+function formatNumber(num) {
+    if(num >= 1000000) return (num/1000000).toFixed(1) + "M";
+    if(num >= 1000) return (num/1000).toFixed(0) + "K";
+    return num;
+}
+
+function spin() {
+    if(data.energy <= 0 || isSpinning) return;
+    if(!audioUnlocked) { alert("Klik tombol merah 🔊 dulu buat aktifin suara!"); return; }
+    playSound('clickSound'); // SUARA KLIK
+    isSpinning = true;
+    data.energy--;
+    setTimeout(() => playSound('spinSound'), 50); // SUARA MUTER
+    navigator.vibrate(50);
+    updateUI();
+
+    const wheel = document.getElementById('wheel');
+    const targetAngle = currentAngle + 360 * 5 + Math.floor(Math.random() * 360);
+    const duration = 4000;
+    const startTime = Date.now();
+    const startAngle = currentAngle;
+
+    function animate() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        currentAngle = startAngle + (targetAngle - startAngle) * easeOut;
+        wheel.style.transform = `rotate(${currentAngle}deg)`;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            isSpinning = false;
+            const finalDegree = currentAngle % 360;
+            const selectedIndex = Math.floor(((360 - finalDegree + 22.5) % 360) / 45);
+            const result = data.wheelItems[selectedIndex];
+            showResult(result);
+            processResult(result);
+            updateUI();
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
+function showResult(result) {
+    const popup = document.getElementById('resultPopup');
+    popup.textContent = result.text;
+    popup.classList.add('show');
+    playSound('winSound'); // SUARA MENANG
+    navigator.vibrate([100,50,100]);
+    createParticle(result.text, window.innerWidth/2, window.innerHeight/2);
+    setTimeout(() => popup.classList.remove('show'), 2000);
+}
+
+function processResult(result) {
+    if(result.type === "koin"){
+        data.koin += result.val;
+    }
+    else if(result.type === "shield"){
+        data.shield += result.val;
+    }
+    else if(result.type === "energy"){
+        data.energy = Math.min(50, data.energy + result.val);
+    }
+    else if(result.type === "attack"){
+        data.attackReady = true;
+    }
+    else if(result.type === "steal"){
+        data.stealReady = true;
+    }
+}
+
+function doAttack() {
+    playSound('clickSound');
+    if(!data.attackReady) {
+        alert("Spin dulu buat dapet ATTACK!");
+        return;
+    }
+    data.attackReady = false;
+    const damage = Math.floor(Math.random() * 500000) + 100000;
+    data.koin += damage;
+    playSound('attackSound');
+    showResult({text: `⚔️ SERANG! +${formatNumber(damage)}`});
+    updateUI();
+}
+
+function doSteal() {
+    playSound('clickSound');
+    if(!data.stealReady) {
+        alert("Spin dulu buat dapet STEAL!");
+        return;
+    }
+    data.stealReady = false;
+    const stolen = Math.floor(Math.random() * 300000) + 50000;
+    data.koin += stolen;
+    playSound('winSound');
+    showResult({text: `🐷 RAMPOK! +${formatNumber(stolen)}`});
+    updateUI();
+}
+
+function createParticle(text, x, y) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.textContent = text;
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+    p.style.fontSize = '28px';
+    p.style.fontWeight = '700';
+    p.style.color = '#FFD700';
+    p.style.textShadow = '2px 2px 4px #000';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1500);
+}
+
+setInterval(() => {
+    if(data.energy < 50){
+        data.energy++;
         updateUI();
-        saveGame();
-      }
     }
+}, 300000);
 
-    function updateUI() {
-      teksKoin.textContent = 'Koin: ' + koin.toLocaleString();
-      btnUpgrade.textContent = `Beli Cangkul (+1/Klik) - ${hargaUpgrade} Koin`;
-      btnUpgrade.disabled = koin < hargaUpgrade;
-    }
-
-    function saveGame() {
-      localStorage.setItem('pulauKoinSave', JSON.stringify({koin, koinPerKlik, hargaUpgrade}));
-    }
-
-    function resetGame() {
-      if(confirm('Yakin reset? Semua progress hilang')) {
-        localStorage.removeItem('pulauKoinSave');
-        location.reload();
-      }
-    }
-  </script>
+load();
+</script>
 </body>
 </html>
