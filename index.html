@@ -24,8 +24,8 @@
 }
 .crown-spin {
     font-size: 100px;
-    animation: spinKing 2s ease-in-out;
-    filter: drop-shadow(0 0 20px #FFD700);
+    animation: spinKing 2n easi-in-out;
+    filter: drop-shadow(0 0 2px #FFD700);
 }
 @keyframes spinKing {
     0% { transform: scale(0) rotate(0deg); }
@@ -50,6 +50,39 @@
     margin-top: 15px;
     font-size: 24px;
     color: #FFD700;
+}
+        /* TAMBAH INI DI BARIS 54 */
+.logo-intro {
+    position: absolute;
+    font-size: 32px;
+    font-weight: bold;
+    color: #FFD700;
+    text-shadow: 0 0 20px #FFD700;
+    animation: fadeInOut 2s ease-in-out forwards;
+}
+
+.crown-intro {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out 2s forwards; /* Nongol setelah 2 detik */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: scale(0.8); }
+    20% { opacity: 1; transform: scale(1); }
+    80% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* EDIT .crown-spin LU JADI INI */
+.crown-spin {
+    font-size: 100px;
+    /* animation: spinKing 2s ease-in-out; ← HAPUS BARIS INI */
+    filter: drop-shadow(0 0 20px #FFD700);
 }
 /* ANIMASI SPLASH CASH KING - END */
 
@@ -150,17 +183,17 @@
     </style>
 </head>
 <body>
-    <!-- SPLASH CASH KING - START -->
-<div id="splash-king">
-    <div class="crown-spin">👑</div>
-    <div class="splash-text">CASH KING</div>
-    <div class="loading-dots">•••</div>
-</div><!-- SPLASH CASH KING - START -->
-<!-- TAMBAH AUDIO INI -->
-<audio id="sfx-ting" preload="auto">
-    <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
-</audio>
-<!-- SPLASH CASH KING - END -->
+    <div id="splash-king">
+    <!-- LOGO MUNCUL DULU -->
+    <div class="logo-intro">CASH KING</div>
+    
+    <!-- MAHKOTA MUNCUL BELAKANGAN -->
+    <div class="crown-intro">
+        <div class="crown-spin">👑</div>
+        <div class="splash-text">SENTUH LAYAR</div>
+        <div class="loading-dots">👆</div>
+    </div>
+    </div>
 <!-- SPLASH CASH KING - END -->
     <div id="audioUnlock" onclick="unlockAudio()">🔊 KLIK UNTUK AKTIFIN SUARA</div>
 
