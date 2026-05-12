@@ -5,6 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Cash King</title>
     <style>
+        /* ANIMASI SPLASH CASH KING - START */
+#splash-king {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+#splash-king.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.crown-spin {
+    font-size: 100px;
+    animation: spinKing 2s ease-in-out;
+    filter: drop-shadow(0 0 20px #FFD700);
+}
+@keyframes spinKing {
+    0% { transform: scale(0) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(360deg); }
+    100% { transform: scale(1) rotate(720deg); }
+}
+.splash-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeInText 1s ease-in 0.5s forwards;
+}
+@keyframes fadeInText {
+    to { opacity: 1; }
+}
+.loading-dots {
+    margin-top: 15px;
+    font-size: 24px;
+    color: #FFD700;
+}
+/* ANIMASI SPLASH CASH KING - END */
+
+/* CSS GAME LU YANG LAMA DI BAWAH INI - JANGAN DIHAPUS */
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Fredoka', sans-serif; }
         body {
@@ -101,6 +150,13 @@
     </style>
 </head>
 <body>
+    <!-- SPLASH CASH KING - START -->
+<div id="splash-king">
+    <div class="crown-spin">👑</div>
+    <div class="splash-text">CASH KING</div>
+    <div class="loading-dots">•••</div>
+</div>
+<!-- SPLASH CASH KING - END -->
     <div id="audioUnlock" onclick="unlockAudio()">🔊 KLIK UNTUK AKTIFIN SUARA</div>
 
     <div class="top-bar">
@@ -363,6 +419,17 @@ setInterval(() => {
 }, 300000);
 
 load();
+</script><!-- SCRIPT SPLASH CASH KING - START -->
+<script>
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('splash-king').classList.add('hidden');
+        setTimeout(() => {
+            document.getElementById('splash-king').remove();
+        }, 500);
+    }, 2500);
+});
 </script>
+<!-- SCRIPT SPLASH CASH KING - END -->
 </body>
 </html>
