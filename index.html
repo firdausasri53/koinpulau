@@ -239,6 +239,11 @@ input:checked + .slider:before { transform: translateX(24px); }
     <div id="settingsModal" class="modal">
   <div class="modal-content">
     <h3>SETTING</h3>
+      <div class="mini-game">
+  <h4>SPIN KOIN GRATIS</h4>
+  <button id="spinBtn">SPIN</button>
+  <p id="spinResult"></p>
+      </div>
     
     <div class="setting-row">
       <span>Suara Efek</span>
@@ -530,6 +535,17 @@ window.addEventListener('load', () => {
     }
 
 });
+    const spinBtn = document.getElementById('spinBtn');
+const spinResult = document.getElementById('spinResult');
+
+spinBtn.onclick = () => {
+    const reward = Math.floor(Math.random() * 90) + 10; // random 10-100
+    coins += reward;
+    updateCoins(); // fungsi update koin yang udah ada
+    spinResult.textContent = `Kamu dapet ${reward} koin!`;
+    spinBtn.disabled = true;
+    spinBtn.textContent = 'UDAH SPIN HARI INI';
+};
 </script>
 </body>
 </html>
