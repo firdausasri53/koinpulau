@@ -522,8 +522,11 @@ window.addEventListener('load', () => {
     const closeSettings = document.getElementById('closeSettings');
 
     if(settingsBtn && settingsModal && closeSettings) {
-        settingsBtn.onclick = () => settingsModal.classList.add('show');
-        closeSettings.onclick = () => settingsModal.classList.remove('show');
+    alert('Elemen ketemu!');
+    settingsBtn.onclick = () => settingsModal.classList.add('show');
+    closeSettings.onclick = () => settingsModal.classList.remove('show');
+} else {
+    alert('Elemen GAK ketemu!');
     }
 
 });
