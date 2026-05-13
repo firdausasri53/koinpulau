@@ -505,25 +505,26 @@ setInterval(() => {
     }
 }, 300000);
 
-load();
-    const settingsBtn = document.getElementById('settingsBtn');
-const settingsModal = document.getElementById('settingsModal');
-const closeSettings = document.getElementById('closeSettings');
-
-settingsBtn.onclick = () => settingsModal.classList.add('show');
-closeSettings.onclick = () => settingsModal.classList.remove('show');
-<!-- SCRIPT SPLASH CASH KING - START -->
-<script>
+// Tunggu semua HTML ke-load dulu
 window.addEventListener('load', () => {
+    
+    // Splash screen
     setTimeout(() => {
-        document.getElementById('splash-king').classList.add('hidden');
+        document.getElementById('splash-king').classList.add('hide');
         setTimeout(() => {
             document.getElementById('splash-king').remove();
         }, 500);
     }, 2500);
+
+    // Settings modal
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettings = document.getElementById('closeSettings');
+
+    if(settingsBtn && settingsModal && closeSettings) {
+        settingsBtn.onclick = () => settingsModal.classList.add('show');
+        closeSettings.onclick = () => settingsModal.classList.remove('show');
+    }
+
 });
-</script>
-<!-- SCRIPT SPLASH CASH KING - END -->
-<!-- SCRIPT SPLASH CASH KING - END -->
-</body>
 </html>
