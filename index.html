@@ -560,12 +560,12 @@ window.addEventListener('load', () => {
     }
 
     // PASTE KODE SPIN DI SINI
-    const spinBtn = document.getElementById('spinBtn');
+    const spinBtnEl = document.getElementById('spinBtn');
     const spinResult = document.getElementById('spinResult');
     const wheel = document.getElementById('wheel');
     let canSpin = true;
 
-    if (spinBtn) {
+    if (spinBtnEl) {
         spinBtn.onclick = () => {
             if (!canSpin) return;
             canSpin = false;
@@ -582,8 +582,8 @@ window.addEventListener('load', () => {
                 
                 setTimeout(() => {
                     canSpin = true;
-                    spinBtn.disabled = false;
-                    spinBtn.textContent = 'SPIN x1';
+                    spinBtnEl.disabled = false;
+                    spinBtnEl.textContent = 'SPIN x1';
                 }, 2000);
             }, 4000);
         };
