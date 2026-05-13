@@ -180,6 +180,28 @@
 .modal.show { display: flex; }
 
         .modal-content {
+            .spin-game { margin-top: 20px; text-align: center; }
+.wheel {
+  width: 200px; height: 200px; border-radius: 50%;
+  border: 6px solid #FFD700; margin: 0 auto;
+  position: relative; overflow: hidden;
+  transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+.slice {
+  position: absolute; width: 50%; height: 50%;
+  left: 50%; top: 0; transform-origin: 0% 100%;
+  transform: rotate(calc(60deg * var(--i)));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 14px; color: #000;
+}
+.slice:nth-child(odd) { background: #FFD700; }
+.slice:nth-child(even) { background: #00ff88; }
+.spin-btn {
+  margin-top: 15px; padding: 12px 30px;
+  background: #00ff88; border: none; border-radius: 10px;
+  font-weight: bold; font-size: 16px; cursor: pointer;
+}
+.spin-btn:disabled { background: gray; cursor: not-allowed; }
     background: #1a1a1a;
     padding: 25px;
     border-radius: 15px;
@@ -239,6 +261,18 @@ input:checked + .slider:before { transform: translateX(24px); }
     <div id="settingsModal" class="modal">
   <div class="modal-content">
     <h3>SETTING</h3>
+      <div class="spin-game">
+  <div class="wheel" id="wheel">
+    <div class="slice" style="--i:0;">50K</div>
+    <div class="slice" style="--i:1;">100K</div>
+    <div class="slice" style="--i:2;">SHIELD</div>
+    <div class="slice" style="--i:3;">200K</div>
+    <div class="slice" style="--i:4;">STEAL</div>
+    <div class="slice" style="--i:5;">25K</div>
+  </div>
+  <button id="spinBtn" class="spin-btn">SPIN x1</button>
+  <p id="spinResult"></p>
+      </div>
       <div class="mini-game">
   <h4>SPIN KOIN GRATIS</h4>
   <button id="spinBtn">SPIN</button>
@@ -545,6 +579,45 @@ spinBtn.onclick = () => {
     spinResult.textContent = `Kamu dapet ${reward} koin!`;
     spinBtn.disabled = true;
     spinBtn.textContent = 'UDAH SPIN HARI INI';
+};
+    const wheel = document.getElementById('wheel');
+const spinBtn = document.getElementById('spinBtn');
+const spinResult = document.getElementById('spinResult');
+let canSpin = true;
+
+spinBtn.onclick = () => {
+    if (!canSpin) return;
+    
+    canSpin = false;
+    spinBtn.disabled = true;
+    
+    const spinDeg = 3600 + Math.floor(Math.random() * 360); // muter 10x + random
+    wheel.style.transform = `rotate(${spinDeg}deg)`;
+    
+    setTimeout(() => {
+        const actualDeg = spinDeg % 360;
+        let reward = 0;
+        
+        if (actualDeg < 60) reward = 50000;
+        else if (actualDeg < 120) reward = 100000;
+        else if (actualDeg < 180) reward = 0; // SHIELD
+        else if (actualDeg < 240) reward = 200000;
+        else if (actualDeg < 300) reward = 0; // STEAL
+        else reward = 25000;
+        
+        if (reward > 0) {
+            coins += reward;
+            updateCoins();
+            spinResult.textContent = `Selamat! Kamu dapet ${reward.toLocaleString()} koin!`;
+        } else {
+            spinResult.textContent = "Sayang, dapet SHIELD/STEAL. Coba lagi besok!";
+        }
+        
+        setTimeout(() => {
+            canSpin = true;
+            spinBtn.disabled = false;
+        }, 2000);
+    }, 4000);
 };
 </script>
 </body>
