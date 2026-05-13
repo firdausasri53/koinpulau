@@ -548,79 +548,47 @@ setInterval(() => {
 
 // Tunggu semua HTML ke-load dulu
 window.addEventListener('load', () => {
-    
-    // Splash screen
-    setTimeout(() => {
-        document.getElementById('splash-king').classList.add('hide');
-        setTimeout(() => {
-            document.getElementById('splash-king').remove();
-        }, 500);
-    }, 2500);
-
-    // Settings modal
-    const settingsBtn = document.getElementById('settingsBtn');
     const settingsModal = document.getElementById('settingsModal');
+    const settingsBtn = document.getElementById('settingsBtn');
     const closeSettings = document.getElementById('closeSettings');
-
-    if(settingsBtn && settingsModal && closeSettings) {
-    // alert('Elemen ketemu!');
-    settingsBtn.onclick = () => settingsModal.classList.add('show');
-    closeSettings.onclick = () => settingsModal.classList.remove('show');
-} else {
-    alert('Elemen GAK ketemu!');
+    
+    if (settingsModal && settingsBtn && closeSettings) {
+        settingsBtn.onclick = () => settingsModal.classList.add('show');
+        closeSettings.onclick = () => settingsModal.classList.remove('show');
+    } else {
+        alert('Elemen GAK ketemu!');
     }
 
-});
+    // PASTE KODE SPIN DI SINI
     const spinBtn = document.getElementById('spinBtn');
-const spinResult = document.getElementById('spinResult');
-
-spinBtn.onclick = () => {
-    const reward = Math.floor(Math.random() * 90) + 10; // random 10-100
-    coins += reward;
-    updateCoins(); // fungsi update koin yang udah ada
-    spinResult.textContent = `Kamu dapet ${reward} koin!`;
-    spinBtn.disabled = true;
-    spinBtn.textContent = 'UDAH SPIN HARI INI';
-};
+    const spinResult = document.getElementById('spinResult');
     const wheel = document.getElementById('wheel');
-const spinBtn = document.getElementById('spinBtn');
-const spinResult = document.getElementById('spinResult');
-let canSpin = true;
+    let canSpin = true;
 
-spinBtn.onclick = () => {
-    if (!canSpin) return;
-    
-    canSpin = false;
-    spinBtn.disabled = true;
-    
-    const spinDeg = 3600 + Math.floor(Math.random() * 360); // muter 10x + random
-    wheel.style.transform = `rotate(${spinDeg}deg)`;
-    
-    setTimeout(() => {
-        const actualDeg = spinDeg % 360;
-        let reward = 0;
-        
-        if (actualDeg < 60) reward = 50000;
-        else if (actualDeg < 120) reward = 100000;
-        else if (actualDeg < 180) reward = 0; // SHIELD
-        else if (actualDeg < 240) reward = 200000;
-        else if (actualDeg < 300) reward = 0; // STEAL
-        else reward = 25000;
-        
-        if (reward > 0) {
-            coins += reward;
-            updateCoins();
-            spinResult.textContent = `Selamat! Kamu dapet ${reward.toLocaleString()} koin!`;
-        } else {
-            spinResult.textContent = "Sayang, dapet SHIELD/STEAL. Coba lagi besok!";
-        }
-        
-        setTimeout(() => {
-            canSpin = true;
-            spinBtn.disabled = false;
-        }, 2000);
-    }, 4000);
-};
+    if (spinBtn) {
+        spinBtn.onclick = () => {
+            if (!canSpin) return;
+            canSpin = false;
+            spinBtn.disabled = true;
+            
+            const spinDeg = 3600 + Math.floor(Math.random() * 360);
+            wheel.style.transform = `rotate(${spinDeg}deg)`;
+            
+            setTimeout(() => {
+                const reward = Math.floor(Math.random() * 90) + 10;
+                coins += reward;
+                updateCoins();
+                spinResult.textContent = `Kamu dapet ${reward} koin!`;
+                
+                setTimeout(() => {
+                    canSpin = true;
+                    spinBtn.disabled = false;
+                    spinBtn.textContent = 'SPIN x1';
+                }, 2000);
+            }, 4000);
+        };
+    }
+});
 </script>
 </body>
 </html>
