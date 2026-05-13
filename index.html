@@ -7,78 +7,49 @@
     <style>
         /* ANIMASI SPLASH CASH KING - START */
 #splash-king {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-    display: flex;
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    background: #0a0a0a;
+    display: flex; 
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease-out;
+    z-index: 9999; 
+    animation: hideSplash 0.5s ease-out 3s forwards;
 }
-#splash-king.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
+
 .crown-spin {
     font-size: 100px;
-    animation: spinKing 2n easi-in-out;
-    filter: drop-shadow(0 0 2px #FFD700);
+    animation: spinKing 3s ease-in-out;
+    filter: drop-shadow(0 0 20px #FFD700);
 }
+
+.splash-text {
+    font-size: 28px; 
+    font-weight: bold;
+    color: #FFD700; 
+    margin-top: 20px;
+    animation: fadeIn 1s ease-in 0.5s forwards;
+    opacity: 0;
+}
+
 @keyframes spinKing {
     0% { transform: scale(0) rotate(0deg); }
     50% { transform: scale(1.2) rotate(360deg); }
     100% { transform: scale(1) rotate(720deg); }
 }
-.splash-text {
-    font-family: 'Arial', sans-serif;
-    font-size: 32px;
-    font-weight: bold;
-    background: linear-gradient(45deg, #FFD700, #FFA500);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-top: 20px;
-    opacity: 0;
-    animation: fadeInText 1s ease-in 0.5s forwards;
-}
-@keyframes fadeInText {
-    to { opacity: 1; }
-}
-.loading-dots {
-    margin-top: 15px;
-    font-size: 24px;
-    color: #FFD700;
-}
-        /* TAMBAH INI DI BARIS 54 */
-.logo-intro {
-    position: absolute;
-    font-size: 32px;
-    font-weight: bold;
-    color: #FFD700;
-    text-shadow: 0 0 20px #FFD700;
-    animation: fadeInOut 2s ease-in-out forwards;
-}
-
-.crown-intro {
-    opacity: 0;
-    animation: fadeIn 0.5s ease-in-out 2s forwards; /* Nongol setelah 2 detik */
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: scale(0.8); }
-    20% { opacity: 1; transform: scale(1); }
-    80% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.1); }
-}
 
 @keyframes fadeIn {
-    from { opacity: 0; }
     to { opacity: 1; }
 }
 
-/* EDIT .crown-spin LU JADI INI */
+@keyframes hideSplash {
+    to { opacity: 0; visibility: hidden; }
+}
+/* ANIMASI SPLASH CASH KING - END */
 .crown-spin {
     font-size: 100px;
     /* animation: spinKing 2s ease-in-out; ← HAPUS BARIS INI */
@@ -183,17 +154,11 @@
     </style>
 </head>
 <body>
-    <div id="splash-king">
-    <!-- LOGO MUNCUL DULU -->
-    <div class="logo-intro">CASH KING</div>
-    
-    <!-- MAHKOTA MUNCUL BELAKANGAN -->
-    <div class="crown-intro">
-        <div class="crown-spin">👑</div>
-        <div class="splash-text">SENTUH LAYAR</div>
-        <div class="loading-dots">👆</div>
-    </div>
-    </div>
+    <!-- SPLASH CASH KING - START -->
+<div id="splash-king">
+    <div class="crown-spin">👑</div>
+    <div class="splash-text">CASH KING</div>
+</div>
 <!-- SPLASH CASH KING - END -->
     <div id="audioUnlock" onclick="unlockAudio()">🔊 KLIK UNTUK AKTIFIN SUARA</div>
 
